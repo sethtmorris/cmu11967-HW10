@@ -414,7 +414,7 @@ class GPTNeoXFlashAttention2(GPTNeoXAttention):
         attn_weights = _flash_attention_forward(query, key, value, attention_mask, query_length, True, dropout=attention_dropout, position_ids=position_ids, use_top_left_mask=self._flash_attn_uses_top_left_mask)
 
         #TODO: Reshape outputs before projection
-        attn_output = attn_weights.view(-1, query_length, hidden_states.shape[-1])
+        attn_output = torch.reshape(attn_weights, (-1, query_length, hidden_states.shape[-1]))
 
         attn_output = self.dense(attn_output)
 
